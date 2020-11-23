@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Person.css"
+import "./Person.css";
 
 const person = (props) => {
 return (
@@ -8,7 +8,7 @@ return (
         <p>{props.children}</p>
         <input type="text" onChange={props.change} value={props.name} />
     </div>
-    )
+    );
 }
 
 export default person;
