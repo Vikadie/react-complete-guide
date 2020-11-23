@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import Person from './Person/Person';
+import classes from './App.css';
+import Person from '../components/Persons/Person/Person';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -46,28 +47,20 @@ class App extends Component {
     this.setState({ showPerson: !oppositeShow })
   }
   
-  render() {
-    const style = {
-      backGroundColour: "white",
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-    
+  render() {    
     let showPers = null;
+    let btnClass = '';
 
     if (this.state.showPerson) {
       showPers = (
         <div>
           {this.state.persons.map( (person, index) => (
-            <Person 
+            <ErrorBoundary key = {person.id}><Person 
             name={person.name}
             age={person.age}
             click={() => this.buttonForDeleteHandler(index)}
             change={(event) => this.changeNameHandler(event, person.id)}
-            key = {person.id}
-            />
+            /></ErrorBoundary>
           ))}
           {/* <Person 
           name = {this.state.persons[0].name} 
@@ -87,14 +80,23 @@ class App extends Component {
           /> */}
         </div>
         );
-    };
+
+        btnClass = classes.Red;
+    }
+
+    const assignedClasses = [];
+    if (this.state.persons.length <= 2){
+      assignedClasses.push(classes.red);
+    }
+    if (this.state.persons.length <= 1){
+      assignedClasses.push(classes.bold);
+    }
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi, I'm a React App</h1>
-        <p>Another React line!</p>
-        <button className="button"
-        style={style}
+        <p className={assignedClasses.join(' ')}>Another React line!</p>
+        <button className={btnClass}
         onClick={this.showPersonHandler}>Switch name</button>
         { showPers }
       </div>
