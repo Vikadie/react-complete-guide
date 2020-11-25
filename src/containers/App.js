@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from '../components/Persons/Person/Person';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -49,55 +49,20 @@ class App extends Component {
   
   render() {    
     let showPers = null;
-    let btnClass = '';
-
     if (this.state.showPerson) {
-      showPers = (
-        <div>
-          {this.state.persons.map( (person, index) => (
-            <ErrorBoundary key = {person.id}><Person 
-            name={person.name}
-            age={person.age}
-            click={() => this.buttonForDeleteHandler(index)}
-            change={(event) => this.changeNameHandler(event, person.id)}
-            /></ErrorBoundary>
-          ))}
-          {/* <Person 
-          name = {this.state.persons[0].name} 
-          age={this.state.persons[0].age}
-          click={() => this.buttonHandler("Vik!!", "Kik!!")}
-          //change = {this.changeNameHandler}
-          />
-          <Person 
-          name = {this.state.persons[1].name} 
-          age={this.state.persons[1].age}
-          change = {this.changeNameHandler}
-          >My Hobbies: learning Maths and foreign languages!</Person>
-          <Person 
-          name = {this.state.persons[2].name} 
-          age={this.state.persons[2].age}
-          //change = {this.changeNameHandler}
-          /> */}
-        </div>
-        );
-
-        btnClass = classes.Red;
-    }
-
-    const assignedClasses = [];
-    if (this.state.persons.length <= 2){
-      assignedClasses.push(classes.red);
-    }
-    if (this.state.persons.length <= 1){
-      assignedClasses.push(classes.bold);
+      showPers = <Persons 
+          persons={this.state.persons}
+          clicked={this.buttonForDeleteHandler}
+          changed={this.changeNameHandler} />;
     }
 
     return (
       <div className={classes.App}>
-        <h1>Hi, I'm a React App</h1>
-        <p className={assignedClasses.join(' ')}>Another React line!</p>
-        <button className={btnClass}
-        onClick={this.showPersonHandler}>Switch name</button>
+        <Cockpit 
+        title={this.props.appTitle}
+        personsLength={this.state.persons.length}
+        show={this.state.showPerson}
+        isShown={this.showPersonHandler}/>
         { showPers }
       </div>
     );
